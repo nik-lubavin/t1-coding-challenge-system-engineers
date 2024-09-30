@@ -1,10 +1,10 @@
 version: "3.8"
 services:
-  database:
-    container_name: t1-coding-challenge-database
-    image: mongo:4.4.3
-    ports:
-      - "27017:27017"
+  # database:
+  #   container_name: t1-coding-challenge-database
+  #   image: mongo:4.4.3
+  #   ports:
+  #     - "27017:27017"
 
   zookeeper:
     container_name: t1-coding-challenge-zookeeper
@@ -26,37 +26,37 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  kafka-producer:
-    container_name: t1-coding-challenge-kafka-producer
-    build: ./kafka-producer
-    depends_on:
-      - kafka
+  # kafka-producer:
+  #   container_name: t1-coding-challenge-kafka-producer
+  #   build: ./kafka-producer
+    # depends_on:
+    # - kafka
 
-  frontend-service:
-    container_name: t1-coding-challenge-frontend-service
-    build: ./frontend-service
-    ports:
-      - "3001:3001"
-    depends_on:
-      - kafka-producer
+  # frontend-service:
+  #   container_name: t1-coding-challenge-frontend-service
+  #   build: ./frontend-service
+  #   ports:
+  #     - "3001:3001"
+  #   depends_on:
+  #     - kafka-producer
 
-  calculation-service:
-    container_name: t1-coding-challenge-calculation-service
-    build: ./calculation-service
-    depends_on:
-      - kafka-producer
-      - database
+  # calculation-service:
+  #   container_name: t1-coding-challenge-calculation-service
+  #   build: ./calculation-service
+  #   depends_on:
+  #     - kafka-producer
+  #     - database
 
-  frontend:
-    container_name: t1-coding-challenge-frontend
-    build:
-      context: ./frontend
-      target: dev
-      dockerfile: Dockerfile
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    ports:
-      - "3000:3000"
-    depends_on:
-      - frontend-service
+  # frontend:
+  #   container_name: t1-coding-challenge-frontend
+  #   build:
+  #     context: ./frontend
+  #     target: dev
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - frontend-service
