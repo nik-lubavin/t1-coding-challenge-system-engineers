@@ -1,50 +1,31 @@
 import EventEmitter from "events";
 import { readStreamBindEventEmitter } from "./read-stream";
-import Kafka from "node-rdkafka";
+import { setupKafkaProducerBindEventEmitter } from "./kafka-producer";
 
 const STREAM_URL: string =
   "https://t1-coding-challenge-9snjm.ondigitalocean.app/stream";
 
-// Create an instance of EventEmitter
-class MyEmitter extends EventEmitter {}
-const myEmitter = new MyEmitter();
-
-// ==========
 let kafkaReady = false;
 
-// Create a Kafka producer
-const producer = new Kafka.Producer({
-  "metadata.broker.list": "localhost:9092", // Update with your broker list
-  dr_cb: true, // Delivery report callback
-});
+// Create an instance of EventEmitter
+class EmitterClass extends EventEmitter {}
+const appEvents = new EmitterClass();
+
+// ==========
+
+const producer = setupKafkaProducerBindEventEmitter(appEvents);
 
 // Message to send
 const key = "example-key";
-const value = "Hello Kafka!";
 const topic = "test-topic"; // Your Kafka topic
 
-// Ready event to ensure the producer is connected
-producer.on("ready", () => {
-  console.log("Producer ready...");
+readStreamBindEventEmitter(STREAM_URL, appEvents);
 
-  try {
-    kafkaReady = true;
-  } catch (err) {
-    console.error("Error producing message:", err);
-  }
+appEvents.on("producer_ready", () => {
+  kafkaReady = true;
 });
 
-// Handle connection errors
-producer.on("event.error", (err) => {
-  console.error("Producer error:", err);
-});
-
-// Connect the producer
-producer.connect();
-
-readStreamBindEventEmitter(STREAM_URL, myEmitter);
-
-myEmitter.on("data", (data) => {
+appEvents.on("data", (data) => {
   if (!kafkaReady) return;
 
   // Produce the message to the specified topic
