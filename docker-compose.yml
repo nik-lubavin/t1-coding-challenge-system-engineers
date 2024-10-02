@@ -1,10 +1,10 @@
 version: "3.8"
 services:
-  # database:
-  #   container_name: t1-coding-challenge-database
-  #   image: mongo:4.4.3
-  #   ports:
-  #     - "27017:27017"
+  database:
+    container_name: t1-coding-challenge-database
+    image: mongo:4.4.3
+    ports:
+      - "27017:27017"
 
   zookeeper:
     container_name: t1-coding-challenge-zookeeper
@@ -14,7 +14,7 @@ services:
     ports:
       - "2181:2181"
     logging:
-      driver: "none"  # Disables logging for this service
+      driver: none  # Disables logging for this service
 
   kafka:
     container_name: t1-coding-challenge-kafka
