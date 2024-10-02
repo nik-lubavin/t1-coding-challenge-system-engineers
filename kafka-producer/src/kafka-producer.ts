@@ -51,7 +51,6 @@ function _createTopic(): Promise<void> {
         console.log(
           `Topic '${TOPIC}' created with ${TOPIC_PARTITIONS} partitions.`
         );
-        adminClient.disconnect();
         return resolve();
       }
     );
