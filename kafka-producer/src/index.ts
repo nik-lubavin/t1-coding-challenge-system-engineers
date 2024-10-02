@@ -6,9 +6,6 @@ import { TOPIC } from "./constants";
 const STREAM_URL: string =
   "https://t1-coding-challenge-9snjm.ondigitalocean.app/stream";
 
-let kafkaReady = false;
-console.log('gghutghutuhgtuhghtuhg')
-
 async function main() {
   // Create an instance of EventEmitter
   class EmitterClass extends EventEmitter {}
@@ -16,7 +13,6 @@ async function main() {
 
   // ====
   const producer = await setupKafkaProducer();
-
 
   // ====
   readStreamBindEventEmitter(STREAM_URL, appEvents);
