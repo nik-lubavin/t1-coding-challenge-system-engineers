@@ -1,8 +1,10 @@
 import axios from "axios";
 import { EventEmitter } from "events";
 
-
-export async function readStreamBindEventEmitter(streamUrl: string, emitter: EventEmitter): Promise<void> {
+export async function readStreamBindEventEmitter(
+  streamUrl: string,
+  emitter: EventEmitter
+): Promise<void> {
   try {
     const response = await axios({
       method: "get",
@@ -21,7 +23,7 @@ export async function readStreamBindEventEmitter(streamUrl: string, emitter: Eve
       dataBuffer = lines.pop() || "";
       dataBuffer = _removeRedudantSymbols(dataBuffer);
 
-      const objs = lines
+      const dataArray = lines
         // Skip empty lines
         .filter((line) => Boolean(line.trim()))
         .map((line) => {
@@ -31,9 +33,9 @@ export async function readStreamBindEventEmitter(streamUrl: string, emitter: Eve
             // failed are skipped for now
             console.error("Failed to parse line into JSON:", err, line);
           }
-        });
+        }) as Object[];
 
-      emitter.emit("data", objs);
+      emitter.emit("data", dataArray);
     });
 
     stream.on("end", () => {
