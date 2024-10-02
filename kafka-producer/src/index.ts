@@ -18,6 +18,8 @@ async function main() {
   readStreamBindEventEmitter(STREAM_URL, appEvents);
 
   let currentInterval;
+
+  // TODO fix to timestamp
   let kafkaKey = 0;
 
   appEvents.on("data", (data) => {
@@ -32,7 +34,7 @@ async function main() {
             Date.now() // Timestamp
           );
 
-          console.log("Produced: ", currentInterval);
+          console.log("Produced: ", currentInterval.kafkaKey);
         }
 
         kafkaKey += 1;
@@ -51,19 +53,6 @@ async function main() {
         currentInterval.trades.push(dataObj);
       }
     }
-
-    // Produce the message to the specified topic
-    //   producer.produce(
-    //     topic, // Topic to send message to
-    //     null, // Partition (null to use default partitioner)
-    //     Buffer.from(data), // Message value (as a buffer)
-    //     key, // Key
-    //     Date.now() // Timestamp
-    //   );
-
-    //   const marketMsg = data.filter((obj) => obj.messageType === "market");
-
-    //   console.log("emitted data", marketMsg, data, kafkaReady);
   });
 }
 
