@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "docker-compose up -d",
+    "stop": "docker-compose down",
     "prune": "docker system prune --all --volumes --force",
-    "logs": "docker-compose logs -f kafka-producer"
+    "logs:k": "docker-compose logs -f kafka-producer",
+    "logs:c": "docker-compose logs -f calculation-service"
   }
 }

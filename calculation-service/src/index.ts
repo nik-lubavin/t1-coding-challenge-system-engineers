@@ -9,16 +9,17 @@ import { mongoDBConnect } from "./mongodb";
   // 1.
   await mongoDBConnect();
 
-  // Create a consumer instance
+  // 2. Create a consumer instance
   const consumer = new Kafka.KafkaConsumer(
     {
       "group.id": "my-group", // Consumer group id
-      "metadata.broker.list": "127.0.0.1:9092", // Kafka broker
+      // "metadata.broker.list": "127.0.0.1:9092", // Kafka broker
+      "metadata.broker.list": "host.docker.internal:29092", // Kafka broker
     },
     {}
   );
 
-  // Event when consumer is ready to consume messages
+  // 3. Event handlers
   consumer
     .on("ready", () => {
       console.log(`Consumer ready. Subscribing to topic: ${TOPIC}...`);
@@ -38,7 +39,7 @@ import { mongoDBConnect } from "./mongodb";
       }
     });
 
-  // Handle errors
+  // 4. Handle errors
   consumer.on("event.error", (err) => {
     console.error("Error from consumer:", err);
   });

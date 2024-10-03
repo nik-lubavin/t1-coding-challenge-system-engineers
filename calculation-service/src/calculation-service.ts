@@ -15,7 +15,6 @@ export async function processKafkaObject(data: FinalKafkaObject) {
     const price = type === "BUY" ? buyPrice : sellPrice;
 
     const additional = parseFloat((volume * price * coef).toFixed(2));
-    console.log({ additional, volume, price });
 
     calculationResult += additional;
   }

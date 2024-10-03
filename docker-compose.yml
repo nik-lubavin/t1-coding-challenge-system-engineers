@@ -13,8 +13,6 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
     ports:
       - "2181:2181"
-    logging:
-      driver: none  # Disables logging for this service
 
   kafka:
     container_name: t1-coding-challenge-kafka
@@ -32,8 +30,6 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_BROKER_ID: 1
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
-    logging:
-      driver: "none"  # Disables logging for this service
 
   kafka-producer:
     container_name: t1-coding-challenge-kafka-producer
@@ -49,12 +45,12 @@ services:
   #   depends_on:
   #     - kafka-producer
 
-  # calculation-service:
-  #   container_name: t1-coding-challenge-calculation-service
-  #   build: ./calculation-service
-  #   depends_on:
-  #     - kafka-producer
-  #     - database
+  calculation-service:
+    container_name: t1-coding-challenge-calculation-service
+    build: ./calculation-service
+    depends_on:
+      - kafka-producer
+      - database
 
   # frontend:
   #   container_name: t1-coding-challenge-frontend
